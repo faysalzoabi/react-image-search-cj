@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import axios from 'axios';
 
 function App() {
+  const [title, setTitle] = useState('React Image Search');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState([]);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setImages([]);
+    console.log('hello');
+    axios.get(`https://pixabay.com/api/?key=10719673-96a765bfec3365b312bfe2d33&q=${searchTerm}&image_type=photo&pretty=true`)
+         .then(result => {
+           setLoading(false);
+           setImages(result.data.hits)
+         })
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{title}</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="searchTerm">Search Term</label>
+        <input onChange={handleChange} value={searchTerm} type="text" className="u-full-width" id="searchTerm"/>
+        <button type="submit">Search</button>
+      </form>
+      <div>
+        {loading ? ('loading...'): null}
+      </div>
+      <section className="images">
+         {images.map(image => {
+           return <img key={image.id} src={image.webformatURL} alt=""/>
+         })}
+      </section>
     </div>
   );
 }
