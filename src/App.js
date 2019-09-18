@@ -33,7 +33,7 @@ function App() {
         <button type="submit">Search</button>
       </form>
       <p>
-        {loading ? ('loading...'): null}
+        {loading ? ('Loading Images...'): null}
       </p>
       <section className="images">
          {images.map(image => {
