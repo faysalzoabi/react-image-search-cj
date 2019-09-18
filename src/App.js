@@ -11,6 +11,7 @@ function App() {
     setSearchTerm(e.target.value)
   }
 
+  //handle submission
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -31,9 +32,9 @@ function App() {
         <input onChange={handleChange} value={searchTerm} type="text" className="u-full-width" id="searchTerm"/>
         <button type="submit">Search</button>
       </form>
-      <div>
+      <p>
         {loading ? ('loading...'): null}
-      </div>
+      </p>
       <section className="images">
          {images.map(image => {
            return <img key={image.id} src={image.webformatURL} alt=""/>
